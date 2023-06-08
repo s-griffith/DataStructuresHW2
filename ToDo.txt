@@ -1,0 +1,73 @@
+Data Structure:
+-hash table of customers
+    -conflict resolution with AVL tree
+-union find with everything as usual of records
+
+-hash table of customers, with conflict resolution as an AVL tree
+-Union Find of records, where each "set" is a stack
+-AVL rank tree of member customers (pointers to the original object)
+    -save prize field for each node
+    -when accessing a node, add the parent's prize up until the root including
+
+
+Classes:
+Records:
+-ID
+-Copies
+-Bought
+-Column
+-Height
+
+Customers:
+-ID
+-Phone Number
+-Whether or not a member
+-Debt
+
+RecordsCompany:
+-initalize hash table and union find with each record as its own set
+-empty data structure so O(1)
+-initialize empty AVL tree of customers
+
+~RecordsCompany:
+-destroy
+
+newMonth:
+-go over every customer in the hash table, in order of the index of array and in an inorder walk on the tree it contains and set debt = 0
+-reset the records: destroy the current records data and do MakeSet() with the data in the given array: index = ID, data = number of Copies
+    - *******CHECK IF NEED TO KEEP THE BOUGHT DATA THE SAME THROUGHOUT OR IF IT ALSO GETS reset
+-go over AVL tree and set prize = 0 in each node
+
+addCustomer:
+-create a customer with the given data
+-add the customer to the hash table using the hash function
+-rehash if needed (if the size is too big, etc.)
+
+getPhone:
+-access the customer through its given ID in the hash table and return the phone number held there
+
+makeMember:
+-access the customer through the hash table and change its member status to True
+-add the customer to the member tree
+
+isMember:
+-access the customer through the hash table and return its member status
+
+buyRecord:
+-add 1 to bought field of record
+-search for the person in the hash table
+-if the person is a member:
+    -add to the member's debt: 100+record.bought
+
+addPrize:
+-Search for the customers in the member AVL tree as if inserting that index
+-add prize to the parents as needed
+
+getExpenses:
+-search for the customer in the AVL tree and return its debt + parents' prizes up to root including
+
+putOnTop:
+-union of two records
+
+getPlace:
+-find of the record
