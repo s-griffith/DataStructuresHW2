@@ -35,7 +35,7 @@ RecordsCompany:
 newMonth:
 -go over every customer in the hash table, in order of the index of array and in an inorder walk on the tree it contains and set debt = 0
 -reset the records: destroy the current records data and do MakeSet() with the data in the given array: index = ID, data = number of Copies
-    - *******CHECK IF NEED TO KEEP THE BOUGHT DATA THE SAME THROUGHOUT OR IF IT ALSO GETS reset
+    - *******CHECK IF NEED TO KEEP THE BOUGHT DATA THE SAME THROUGHOUT OR IF IT ALSO GETS reset - It all gets reset
 -go over AVL tree and set prize = 0 in each node
 
 addCustomer:

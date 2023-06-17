@@ -2,12 +2,31 @@
 #define RECORDS_COMPANY_H
 
 #include "utilesWet2.h"
-
+#include "AVLTree.h"
+#include "AVLRank.h"
+#include "Customer.h"
+#include "Exception.h"
+#include "Node.h"
+#include "GenericNode.h"
+#include "RankNode.h"
+#include "Record.h"
+#include "Stack.h" //MIGHT WANT TO GET RID OF THIS CLASS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 class RecordsCompany {
   private:
-    // todo
+    int m_numRecords;
+    int m_currentHashSize;
+    AVLRank<Customer*> m_members;
+    Tree<GenericNode<Customer*>, Customer*>** m_customersHashTable;
+    Record** m_records;
+
+    void enlarge_hash_table();
+    void destroy_old_hash_table(Tree<GenericNode<Customer*>, Customer*>** tmpTable);
+    void insert_customer_hash_table(Customer* tmpCustomer);
+    int hash_function(int id);
+
+
   public:
     RecordsCompany();
     ~RecordsCompany();
