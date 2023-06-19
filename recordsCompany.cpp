@@ -56,6 +56,8 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
     for (int i = 0; i < number_of_records; ++i) {
         try{
             m_records[i]= new Record(i, records_stocks[i], i);
+            Stack* stack = new Stack(m_records[i]);
+            m_records[i]->setStack(stack);
         }
         catch (const std::bad_alloc& e) {
             return StatusType::ALLOCATION_ERROR;
@@ -221,8 +223,10 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
     Record* rec1= m_records[r_id1];
     Record* rec2 = m_records[r_id2];
 
-    if(rec1->record_union())
-
+    if(rec1->find()==rec2->find()){
+        return FAILURE;
+    }
+    rec1->record_union(rec2)
 }
 
 

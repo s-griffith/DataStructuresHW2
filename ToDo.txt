@@ -4,7 +4,7 @@ Data Structure:
 -union find with everything as usual of records
 
 -hash table of customers, with conflict resolution as an AVL tree
--Union Find of records, where each "set" is a stack
+-Union Find of records, where each "set" is a m_stack
 -AVL rank tree of member customers (pointers to the original object)
     -save prize field for each node
     -when accessing a node, add the parent's prize up until the root including

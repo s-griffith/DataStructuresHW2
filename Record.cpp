@@ -42,11 +42,11 @@ void Record::buy_record() {
     m_copies--;
 }
 
-void Record::find() {
+Stack * Record::find() {
     if (m_parent == nullptr || m_parent->m_parent == nullptr) {
-        return;
+        return m_stack;
     }
-    find_update_parent(this);
+    return find_update_parent(this)->m_stack;
 }
 
 Record* Record::find_update_parent(Record* tmpRecord) {
@@ -58,12 +58,29 @@ Record* Record::find_update_parent(Record* tmpRecord) {
 }
 
 Record* Record::record_union(Record* other, int currentNum, int otherNum) {
-    //Other stack is smaller - it will be joining the current stack's upside-down tree 
-    if (currentNum >= otherNum) {
-        other->m_parent = this;
+    //Other m_stack is smaller - it will be joining the current m_stack's upside-down tree
+    if (other->find()->get_numRecords()<=this->find()->get_numRecords()) {
+        int num_of_recs = other->find()->get_numRecords();
+        delete other->find();
+        Record* other_parent = other->m_parent;
+        while(other_parent->m_parent){
+            other_parent = other_parent->m_parent;
+        }
+        other_parent->m_stack = m_stack;
+        other_parent->m_height -= m_height;
+        m_stack->update_numRecords(num_of_recs);
+        return this;
+    }else{
+        int num_of_recs = this->find()->get_numRecords();
+        delete this->find();
+        Record* this_root = this->find()->get_records();
+        Record* other_root = other->find()->get_records();
+        this_root->m_stack = other->m_stack;
+        this_root->m_height -= other->m_height;
+        m_stack->update_numRecords(num_of_recs);
         return this;
     }
-    //Change root of current stack to other stack's root
+    //Change root of current m_stack to other m_stack's root
     m_parent = other;
     return other;
 }
@@ -85,4 +102,8 @@ int Record::find_group() {
         parent = parent->m_parent;
     }
     return parent->m_recordID;
+}
+
+void Record::setStack(Stack *stack) {
+    Record::m_stack = stack;
 }

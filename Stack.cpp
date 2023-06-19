@@ -3,7 +3,9 @@
 Stack::Stack(Record* record) :
     m_numRecords(1),
     m_records(record)
-{}
+{
+    m_column = record->get_recordID();
+}
 
 Stack::~Stack() {
     m_records = nullptr;
@@ -23,4 +25,8 @@ void Stack::update_records(Record* record) {
 
 void Stack::update_numRecords(int num) {
     m_numRecords += num;
+}
+
+void Stack::set_column(int column) {
+    m_column = column;
 }

@@ -22,6 +22,8 @@ public:
     int get_height() const;
     Record* get_parent() const;
 
+    void setStack(Stack *stack);
+
     void set_params(int ID, int copies, int column);
 
     void buy_record();
@@ -31,7 +33,7 @@ public:
      * @param - None
      * @return - None
     */
-    void find();
+    Stack * find();
 
     int find_group();
 
@@ -47,7 +49,7 @@ private:
     int m_column;
     int m_height;
     Record* m_parent;
-
+    Stack* m_stack;
 };
 
 #endif //RECORD_H

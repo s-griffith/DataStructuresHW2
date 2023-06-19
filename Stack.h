@@ -18,9 +18,12 @@ public:
 
     void update_numRecords(int num);
 
+    void set_column(int column);
+
 
 private:
 
+    int m_column;
     int m_numRecords;
     Record* m_records;
 
