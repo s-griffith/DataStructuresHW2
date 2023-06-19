@@ -30,7 +30,13 @@ int Record::get_column() const {
 }
 
 int Record::get_height() const {
-    return m_height;
+   Record* parent = m_parent;
+   int height = m_height;
+   while(parent){
+       height+= parent->m_height;
+       parent = parent->m_parent;
+   }
+   return height;
 }
 
 Record* Record::get_parent() const {
@@ -57,27 +63,26 @@ Record* Record::find_update_parent(Record* tmpRecord) {
     return tmpRecord->m_parent;
 }
 
-Record* Record::record_union(Record* other, int currentNum, int otherNum) {
+Record * Record::record_union(Record *other) {
     //Other m_stack is smaller - it will be joining the current m_stack's upside-down tree
-    if (other->find()->get_numRecords()<=this->find()->get_numRecords()) {
-        int num_of_recs = other->find()->get_numRecords();
+    int num_of_recs_other = other->find()->get_numRecords();
+    int num_of_recs_this = this->find()->get_numRecords();
+    Record* other_root = other->find()->get_records();
+    Record* this_root = this->find()->get_records();
+    if (num_of_recs_other<=num_of_recs_this) {
         delete other->find();
-        Record* other_parent = other->m_parent;
-        while(other_parent->m_parent){
-            other_parent = other_parent->m_parent;
-        }
-        other_parent->m_stack = m_stack;
-        other_parent->m_height -= m_height;
-        m_stack->update_numRecords(num_of_recs);
+        other_root->m_stack = m_stack;
+        other_root->m_height += (other->find()->get_height() - m_height);
+        m_stack->update_numRecords(num_of_recs_other);
         return this;
-    }else{
-        int num_of_recs = this->find()->get_numRecords();
-        delete this->find();
-        Record* this_root = this->find()->get_records();
-        Record* other_root = other->find()->get_records();
+    }
+    else{
         this_root->m_stack = other->m_stack;
-        this_root->m_height -= other->m_height;
-        m_stack->update_numRecords(num_of_recs);
+        other_root->m_height += this->find()->get_height();
+        this_root->m_height -= other_root->m_height;
+        other_root->m_stack->update_numRecords(num_of_recs_this);
+        other_root->m_stack->set_column(this->find()->get_column());
+        delete this->find();
         return this;
     }
     //Change root of current m_stack to other m_stack's root

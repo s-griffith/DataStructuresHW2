@@ -20,9 +20,16 @@ public:
 
     void set_column(int column);
 
+    int get_column() const;
+
+    void update_height(int height);
+
+    int get_height() const;
+
 
 private:
 
+    int m_height;
     int m_column;
     int m_numRecords;
     Record* m_records;

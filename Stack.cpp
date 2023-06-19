@@ -4,6 +4,7 @@ Stack::Stack(Record* record) :
     m_numRecords(1),
     m_records(record)
 {
+    m_height= record->get_copies();
     m_column = record->get_recordID();
 }
 
@@ -29,4 +30,16 @@ void Stack::update_numRecords(int num) {
 
 void Stack::set_column(int column) {
     m_column = column;
+}
+
+void Stack::update_height(int height) {
+    m_height += height;
+}
+
+int Stack::get_height() const {
+    return m_height;
+}
+
+int Stack::get_column() const {
+    return m_column;
 }

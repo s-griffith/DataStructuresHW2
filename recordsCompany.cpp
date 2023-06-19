@@ -226,12 +226,21 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
     if(rec1->find()==rec2->find()){
         return FAILURE;
     }
-    rec1->record_union(rec2)
+    rec1->record_union(rec2);
+    return SUCCESS;
 }
 
 
 StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight)
 {
+    if(r_id<0|| !column || !hight){
+        return INVALID_INPUT;
+    }
+    if(r_id>=m_numRecords){
+        return DOESNT_EXISTS;
+    }
+    *hight = m_records[r_id]->get_height();
+    *column = m_records[r_id]->find()->get_column();
     return StatusType::SUCCESS;
 }
 

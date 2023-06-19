@@ -39,7 +39,7 @@ public:
 
     Record* find_update_parent(Record* tmpRecord);
 
-    Record* record_union(Record* other, int currentNum, int otherNum);
+    Record *record_union(Record *other);
 
 private:
 
