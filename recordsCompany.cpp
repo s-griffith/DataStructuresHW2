@@ -98,6 +98,7 @@ StatusType RecordsCompany::addCostumer(int c_id, int phone)
         delete newCustomer;
         return StatusType::ALLOCATION_ERROR;
     }
+    m_numCustomers++;
     return StatusType::SUCCESS;
 }
 
@@ -321,6 +322,8 @@ void RecordsCompany::update_customers_debt(Tree<GenericNode<Customer*>, Customer
 
     for (int i = 0; i < m_currentHashSize; i++) {
         GenericNode<Customer*>* bucket = tmpTable[i]->m_node;
-        TraverseAVLTree(bucket);
+        if(bucket->get_data()) {
+            TraverseAVLTree(bucket);
+        }
     }
 }

@@ -96,7 +96,7 @@ private:
 };
 
 template<class T>
-RankNode<T>::RankNode() : m_prize(0) {}
+RankNode<T>::RankNode() : m_parent(nullptr), m_left(nullptr), m_right(nullptr), m_prize(0) {}
 
 template <class T>
 void RankNode<T>::add_prize(double prize, int min) {
