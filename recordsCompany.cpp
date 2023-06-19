@@ -63,6 +63,7 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
             return StatusType::ALLOCATION_ERROR;
         }
     }
+    m_numRecords = number_of_records;
     return StatusType::SUCCESS;
 }
 
