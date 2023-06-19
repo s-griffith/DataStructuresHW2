@@ -17,6 +17,7 @@ public:
     int get_phone() const;
     bool isVIP() const;
     int get_debt() const;
+    void update_debt();
     bool makeMember();
     void buy(int num);
 

@@ -17,6 +17,7 @@ class RecordsCompany {
   private:
     int m_numRecords;
     int m_currentHashSize;
+    int m_numCustomers;
     AVLRank<Customer*> m_members;
     Tree<GenericNode<Customer*>, Customer*>** m_customersHashTable;
     Record** m_records;
@@ -25,6 +26,7 @@ class RecordsCompany {
     void destroy_old_hash_table(Tree<GenericNode<Customer*>, Customer*>** tmpTable);
     void insert_customer_hash_table(Customer* tmpCustomer);
     int hash_function(int id);
+    void update_customers_debt(Tree<GenericNode<Customer*>, Customer*>** tmpTable);
 
 
   public:

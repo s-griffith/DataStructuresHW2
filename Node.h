@@ -38,6 +38,8 @@ public:
     */
     int getID() const;
 
+    T& get_data();
+
 protected:
 
     /*
@@ -80,6 +82,12 @@ template <class T>
 int Node<T>::getID() const {
     return m_id;
 }
+
+template<class T>
+T& Node<T>::get_data(){
+    return m_data;
+}
+
 
 
 #endif //NODE_H

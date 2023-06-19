@@ -3,6 +3,7 @@
 
 #include "Exception.h"
 #include "Node.h"
+#include "GenericNode.h"
 
 /*
 * Class Tree
@@ -50,6 +51,7 @@ public:
      * @return - none
      */
     void erase_data(N* currentNode);
+
 
     /*
      * Insert new node with data, according to the id given
@@ -109,6 +111,8 @@ public:
     */
     void get_all_data(T* const array) const;
 
+
+
 protected:
 
     /*
@@ -119,6 +123,13 @@ protected:
     N* make_node_leaf(N* node);
 
 };
+
+
+
+
+
+
+
 
 
 //-------------------------------Constructor, Destructors, and Helpers--------------------------------------

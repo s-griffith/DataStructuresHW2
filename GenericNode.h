@@ -8,7 +8,7 @@
 * This class is used to create the separate nodes in a basic AVL tree.
 */
 template <class T>
-class GenericNode : Node<T> {
+class GenericNode : public Node<T> {
 public:
 
     /*
@@ -39,6 +39,11 @@ public:
     * @return - height
     */
     int get_height() const;
+
+
+    GenericNode *get_left();
+
+    GenericNode *get_right();
 
 private:
 
@@ -273,6 +278,16 @@ void GenericNode<T>::inorder_remove() {
         this->m_data->remove_group();
         m_right->inorder_remove();
     }
+}
+
+template<class T>
+GenericNode<T> *GenericNode<T>::get_left(){
+    return m_left;
+}
+
+template<class T>
+GenericNode<T> *GenericNode<T>::get_right(){
+    return m_right;
 }
 
 //-----------------------------------------------------------------------------------------------------------

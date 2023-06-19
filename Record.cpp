@@ -67,3 +67,22 @@ Record* Record::record_union(Record* other, int currentNum, int otherNum) {
     m_parent = other;
     return other;
 }
+
+
+
+void Record::set_params(int ID, int copies, int column) {
+    m_recordID=ID;
+    m_copies=copies;
+    m_column=column;
+}
+
+int Record::find_group() {
+    Record* parent = m_parent;
+    if(!parent){
+        return m_recordID;
+    }
+    while(parent->m_parent){
+        parent = parent->m_parent;
+    }
+    return parent->m_recordID;
+}

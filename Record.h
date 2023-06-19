@@ -22,6 +22,8 @@ public:
     int get_height() const;
     Record* get_parent() const;
 
+    void set_params(int ID, int copies, int column);
+
     void buy_record();
 
     /*
@@ -30,6 +32,8 @@ public:
      * @return - None
     */
     void find();
+
+    int find_group();
 
     Record* find_update_parent(Record* tmpRecord);
 

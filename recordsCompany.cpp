@@ -3,6 +3,7 @@
 RecordsCompany::RecordsCompany() : 
     m_numRecords(0),
     m_currentHashSize(7),
+    m_numCustomers(0),
     m_members(),
     m_records(nullptr)
 {
@@ -34,13 +35,68 @@ RecordsCompany::~RecordsCompany()
 
 StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
 {
+    if(number_of_records<0){
+        return StatusType::INVALID_INPUT;
+    }
+    update_customers_debt(m_customersHashTable);
 
+    //delete previous data
+    for (int i = 0; i < m_numRecords; i++) {
+        delete m_records[i];
+    }
+    delete[] m_records;
+
+    try {
+        m_records = new Record *[number_of_records];
+    }
+    catch (const std::bad_alloc& e) {
+        return StatusType::ALLOCATION_ERROR;
+    }
+
+    for (int i = 0; i < number_of_records; ++i) {
+        try{
+            m_records[i]= new Record(i, records_stocks[i], i);
+        }
+        catch (const std::bad_alloc& e) {
+            return StatusType::ALLOCATION_ERROR;
+        }
+    }
+    return StatusType::SUCCESS;
 }
 
 
 StatusType RecordsCompany::addCostumer(int c_id, int phone)
 {
+    if(c_id<0||phone<0){
+        return StatusType::INVALID_INPUT;
+    }
 
+    Customer* newCustomer = new Customer(c_id, phone);
+
+    //Update the hash table if needed:
+    if (m_numCustomers + 1 == m_currentHashSize) {
+        try {
+            enlarge_hash_table();
+        }
+        catch (const std::bad_alloc& e) {
+            delete newCustomer;
+            return StatusType::ALLOCATION_ERROR;
+        }
+    }
+
+    int arrayIndex = hash_function(c_id);
+    try {
+        m_customersHashTable[arrayIndex]->insert(newCustomer, c_id);
+    }
+    catch (const InvalidID& e) {
+        delete newCustomer;
+        return StatusType::ALREADY_EXISTS;
+    }
+    catch (const std::bad_alloc& e) {
+        delete newCustomer;
+        return StatusType::ALLOCATION_ERROR;
+    }
+    return StatusType::SUCCESS;
 }
 
 
@@ -156,13 +212,23 @@ Output_t<double> RecordsCompany::getExpenses(int c_id)
 
 StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
 {
+    if(r_id1<0 || r_id2<0 ){
+        return INVALID_INPUT;
+    }
+    if(r_id1>= m_numRecords || r_id2>= m_numRecords){
+        return DOESNT_EXISTS;
+    }
+    Record* rec1= m_records[r_id1];
+    Record* rec2 = m_records[r_id2];
+
+    if(rec1->record_union())
 
 }
 
 
 StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight)
 {
-
+    return StatusType::SUCCESS;
 }
 
 
@@ -222,4 +288,26 @@ void RecordsCompany::insert_customer_hash_table(Customer* tmpCustomer)
 int RecordsCompany::hash_function(int id)
 {
     return id % m_currentHashSize;
+}
+
+// Assume we have a HashTable class with a member variable "buckets" of type AVLTreeNode**
+
+void TraverseAVLTree(GenericNode<Customer*>* node) {
+    if (node == nullptr) {
+        return;
+    }
+
+    TraverseAVLTree(node->get_left());
+
+    node->get_data()->update_debt();
+
+    TraverseAVLTree(node->get_right());
+}
+
+void RecordsCompany::update_customers_debt(Tree<GenericNode<Customer*>, Customer*>** tmpTable) {
+
+    for (int i = 0; i < m_currentHashSize; i++) {
+        GenericNode<Customer*>* bucket = tmpTable[i]->m_node;
+        TraverseAVLTree(bucket);
+    }
 }

@@ -39,3 +39,7 @@ bool Customer::makeMember() {
 void Customer::buy(int num) {
     m_debt += (100 + num);
 }
+
+void Customer::update_debt() {
+    m_debt=0;
+}
