@@ -228,7 +228,7 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
     if(rec1->find()==rec2->find()){
         return FAILURE;
     }
-    rec1->record_union(rec2);
+    rec2->record_union(rec1);
     return SUCCESS;
 }
 

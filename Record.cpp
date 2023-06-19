@@ -33,7 +33,7 @@ int Record::get_height() const {
    Record* parent = m_parent;
    int height = m_height;
    while(parent){
-       height+= parent->m_height;
+       height += parent->m_height;
        parent = parent->m_parent;
    }
    return height;
@@ -49,7 +49,7 @@ void Record::buy_record() {
 }
 
 Stack * Record::find() {
-    if (m_parent == nullptr || m_parent->m_parent == nullptr) {
+    if (m_parent == nullptr) {
         return m_stack;
     }
     return find_update_parent(this)->m_stack;
@@ -69,20 +69,23 @@ Record * Record::record_union(Record *other) {
     int num_of_recs_this = this->find()->get_numRecords();
     Record* other_root = other->find()->get_records();
     Record* this_root = this->find()->get_records();
+    Stack* other_stack = other->find();
+    Stack* this_stack = this->find();
     if (num_of_recs_other<=num_of_recs_this) {
-        delete other->find();
-        other_root->m_stack = m_stack;
-        other_root->m_height += (other->find()->get_height() - m_height);
-        m_stack->update_numRecords(num_of_recs_other);
+        other_root->m_parent = this_root;
+        other_root->m_height += (this_stack->get_height() - this_root->m_height);
+        this_root->m_stack->update_numRecords(num_of_recs_other);
+        delete other_stack;
         return this;
     }
     else{
         this_root->m_stack = other->m_stack;
-        other_root->m_height += this->find()->get_height();
-        this_root->m_height -= other_root->m_height;
+        int other_height = other_root->m_height;
+        other_root->m_height += this_stack->get_height();
+        this_root->m_height -= other_height;
         other_root->m_stack->update_numRecords(num_of_recs_this);
-        other_root->m_stack->set_column(this->find()->get_column());
-        delete this->find();
+        other_root->m_stack->set_column(this_stack->get_column());
+        delete this_stack;
         return this;
     }
     //Change root of current m_stack to other m_stack's root
