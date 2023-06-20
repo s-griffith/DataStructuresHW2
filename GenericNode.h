@@ -44,6 +44,8 @@ public:
     GenericNode *get_left();
 
     GenericNode *get_right();
+    
+    void define_prize();
 
 private:
 
@@ -290,6 +292,8 @@ GenericNode<T> *GenericNode<T>::get_right(){
     return m_right;
 }
 
+template <class T>
+void GenericNode<T>::define_prize() {}
 //-----------------------------------------------------------------------------------------------------------
 
 #endif //GENERICNODE_H

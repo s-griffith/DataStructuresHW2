@@ -243,6 +243,7 @@ void Tree<N, T>::insert(T data, const int id) {
         else {
             y->m_right = node;
         }
+        node->define_prize();
         rebalance_tree((node->m_parent));
     }
     catch(const std::bad_alloc& e)

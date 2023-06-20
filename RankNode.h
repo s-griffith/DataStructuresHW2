@@ -20,7 +20,7 @@ public:
 
     double calculate_prize();
 
-    void insert();
+    void define_prize();
 
     /*
     * Returns the height of a node
@@ -179,7 +179,7 @@ double RankNode<T>::calculate_prize() {
 }
 
 template <class T>
-void RankNode<T>::insert() {
+void RankNode<T>::define_prize() {
     if (this != nullptr) {
         int prize = this->calculate_prize();
         if (prize == 0) {
@@ -358,8 +358,14 @@ void RankNode<T>::printNode() {
     else {
         right = m_right->m_id;
     }
+    int debt = 0;
+    int prize = 0;
+    if (this->m_id != -1) {
+        debt = this->m_data->get_debt();
+        prize = m_prize;
+    }
     std::cout << "ID = " << Node<T>::m_id << ", Parent = " << parent << ", Left = " 
-            << left << ", Right = " << right << ", Debt = " << this->m_data->get_debt() << ", Prize = " << m_prize << std::endl;
+            << left << ", Right = " << right << ", Debt = " << debt << ", Prize = " << prize << std::endl;
 }
 
 
