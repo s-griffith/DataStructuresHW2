@@ -5,6 +5,7 @@
 #include "Node.h"
 #include "GenericNode.h"
 #include <new>
+#include "RankNode.h"
 
 /*
 * Class Tree
@@ -112,7 +113,9 @@ public:
     */
     void get_all_data(T* const array) const;
 
+    void add_prize(double prize, int min, int max);
 
+    double calculate_prize(N* node) const;
 
 protected:
 
@@ -363,6 +366,25 @@ void Tree<N, T>::get_all_data(T* const array) const
     }
 }
 
+template<class N, class T>
+void Tree<N, T>::add_prize(double prize, int min, int max) {
+//Use this as a helper function - call first on (max, prize) then on (min-1, -prize)
+//Search for the given node
+//On the first of a series of right turns, add i to the parent turned right from
+//On a left turn that follows at least one right turn, add -i to the parent
+//When reaching the given node, if without previous right turns, add i to the given node
+//-i to the given node's right child if exists
+//On a left turn with no right turn directly before it: do nothing
+
+    //Call the helper function with min-1 and -prize:
+    this->m_node->add_prize(prize*(-1), min-1);
+    this->m_node->add_prize(prize, max);
+}
+
+template<class N, class T>
+double Tree<N, T>::calculate_prize(N* node) const {
+     return node->calculate_prize();
+}
 //-----------------------------------------Internal Helper Functions-----------------------------------------
 
 template <class N, class T>

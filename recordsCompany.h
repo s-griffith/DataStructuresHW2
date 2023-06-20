@@ -3,7 +3,7 @@
 
 #include "utilesWet2.h"
 #include "AVLTree.h"
-#include "AVLRank.h"
+//#include "AVLRank.h"
 #include "Customer.h"
 #include "Exception.h"
 #include "Node.h"
@@ -18,7 +18,7 @@ class RecordsCompany {
     int m_numRecords;
     int m_currentHashSize;
     int m_numCustomers;
-    AVLRank<Customer*> m_members;
+    Tree<RankNode<Customer*>, Customer*> m_members;
     Tree<GenericNode<Customer*>, Customer*>** m_customersHashTable;
     Record** m_records;
 
