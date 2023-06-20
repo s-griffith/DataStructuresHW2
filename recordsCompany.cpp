@@ -205,7 +205,7 @@ StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double amount)
     }
     //m_members.print_tree();
     m_members.add_prize(amount, c_id1, c_id2);
-    //m_members.print_tree();
+    m_members.print_tree();
     return StatusType::SUCCESS;
 }
 

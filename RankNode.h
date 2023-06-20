@@ -224,13 +224,15 @@ typename RankNode<T>::RankNode* RankNode<T>::ll_rotation(RankNode<T>* node)
     //Changing Ar->A to Ar->B
     if (m_left->m_right != nullptr) {
         m_left->m_right->m_parent = this;
+        m_left->m_right->m_prize += m_left->m_prize;
     }
     //Changing B->A to B->Ar
     m_left = m_left->m_right;
     //Changing A->Ar to A->B
     m_parent->m_right = this;
-    m_parent->m_prize += m_prize;
-    m_prize = 0;
+    int tmp = m_prize;
+    m_prize = m_parent->m_prize*(-1);
+    m_parent->m_prize += tmp;
     return tmpToReturn;
 }
 
@@ -255,11 +257,13 @@ typename RankNode<T>::RankNode* RankNode<T>::rr_rotation(RankNode<T>* node)
     m_parent = m_right;
     if(m_right->m_left != nullptr) {
         m_right->m_left->m_parent = this;
+        m_right->m_left->m_prize += m_right->m_prize;
     }
     m_right = m_right->m_left;
     m_parent->m_left = this;
-    m_parent->m_prize += m_prize;
-    m_prize = 0;
+    int tmp = m_prize;
+    m_prize = m_parent->m_prize*(-1);
+    m_parent->m_prize += tmp;
     return tmpToReturn;
 }
 
