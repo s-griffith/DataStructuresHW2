@@ -58,6 +58,9 @@ Record* Record::find_update_parent(Record* tmpRecord) {
     if (tmpRecord->m_parent == nullptr) {
         return tmpRecord;
     }
+    if(tmpRecord->m_parent->m_parent) {
+        tmpRecord->m_height += tmpRecord->m_parent->m_height;
+    }
     tmpRecord->m_parent = find_update_parent(tmpRecord->m_parent);
     return tmpRecord->m_parent;
 }
