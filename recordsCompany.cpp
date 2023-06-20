@@ -49,7 +49,7 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
     try {
         m_records = new Record *[number_of_records];
     }
-    catch (const std::bad_alloc& e) {
+    catch (const std::bad_alloc &e) {
         return StatusType::ALLOCATION_ERROR;
     }
 
@@ -60,6 +60,7 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
             m_records[i]->setStack(stack);
         }
         catch (const std::bad_alloc& e) {
+            delete m_records;
             return StatusType::ALLOCATION_ERROR;
         }
     }
@@ -210,7 +211,7 @@ Output_t<double> RecordsCompany::getExpenses(int c_id)
     catch(const NodeNotFound& e) {
         return Output_t<double>(StatusType::DOESNT_EXISTS);
     }
-    return Output_t<double>(tmpCustomer->get_debt() + m_members.calculate_prize(&(m_members.search_specific_id(c_id))));
+    return Output_t<double>(tmpCustomer->get_debt() - m_members.calculate_prize(&(m_members.search_specific_id(c_id))));
 }
 
 
