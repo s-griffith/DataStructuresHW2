@@ -231,8 +231,9 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
     }
     Record* rec1= m_records[r_id1];
     Record* rec2 = m_records[r_id2];
-
-    if(rec1->find()==rec2->find()){
+    Record* root1 = rec1->find();
+    Record* root2 = rec2->find();
+    if(root1 == root2){
         return FAILURE;
     }
     rec2->record_union(rec1);

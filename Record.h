@@ -35,7 +35,7 @@ public:
      * @param - None
      * @return - None
     */
-    Stack * find();
+    Record* find();
 
     int find_group();
 

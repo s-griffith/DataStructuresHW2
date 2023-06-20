@@ -48,11 +48,11 @@ void Record::buy_record() {
     m_copies--;
 }
 
-Stack * Record::find() {
+Record* Record::find() {
     if (m_parent == nullptr) {
-        return m_stack;
+        return this;
     }
-    return find_update_parent(this)->m_stack;
+    return find_update_parent(this);
 }
 
 Record* Record::find_update_parent(Record* tmpRecord) {
@@ -65,12 +65,12 @@ Record* Record::find_update_parent(Record* tmpRecord) {
 
 Record * Record::record_union(Record *other) {
     //Other m_stack is smaller - it will be joining the current m_stack's upside-down tree
-    int num_of_recs_other = other->find()->get_numRecords();
-    int num_of_recs_this = this->find()->get_numRecords();
-    Record* other_root = other->find()->get_records();
-    Record* this_root = this->find()->get_records();
-    Stack* other_stack = other->find();
-    Stack* this_stack = this->find();
+    int num_of_recs_other = other->find()->get_stack()->get_numRecords();
+    int num_of_recs_this = this->find()->get_stack()->get_numRecords();
+    Record* other_root = other->find()->get_stack()->get_records();
+    Record* this_root = this->find()->get_stack()->get_records();
+    Stack* other_stack = other->find()->get_stack();
+    Stack* this_stack = this->find()->get_stack();
     if (num_of_recs_other<=num_of_recs_this) {
         other_root->m_parent = this_root;
         other_root->m_stack = nullptr;
@@ -80,14 +80,15 @@ Record * Record::record_union(Record *other) {
         return this;
     }
     else{
-        this_root->m_stack = other->m_stack;
+        this_root->m_stack = nullptr;
         int other_height = other_root->m_height;
         other_root->m_height += this_stack->get_height();
         this_root->m_height -= other_height;
         other_root->m_stack->update_numRecords(num_of_recs_this);
         other_root->m_stack->set_column(this_stack->get_column());
+        this_root->m_parent = other_root;
         delete this_stack;
-        return this;
+        return other;
     }
     //Change root of current m_stack to other m_stack's root
     m_parent = other;
