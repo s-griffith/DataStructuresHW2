@@ -152,7 +152,6 @@ StatusType RecordsCompany::makeMember(int c_id)
         catch (const std::bad_alloc& e) {
             return StatusType::ALLOCATION_ERROR;
         }
-        //m_members.print_tree();
         return StatusType::SUCCESS;
     }
     return StatusType::ALREADY_EXISTS;
@@ -205,9 +204,7 @@ StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double amount)
     if (c_id1 < 0 || c_id2 < 0 || amount <= 0 ||c_id2 < c_id1) {
         return StatusType::INVALID_INPUT;
     }
-    //m_members.print_tree();
     m_members.add_prize(amount, c_id1, c_id2);
-    //m_members.print_tree();
     return StatusType::SUCCESS;
 }
 
@@ -224,7 +221,6 @@ Output_t<double> RecordsCompany::getExpenses(int c_id)
     catch(const NodeNotFound& e) {
         return Output_t<double>(StatusType::DOESNT_EXISTS);
     }
-    //m_members.print_tree();
     return Output_t<double>(tmpCustomer->get_debt() - m_members.calculate_prize(&(m_members.search_specific_id(c_id))));
 }
 

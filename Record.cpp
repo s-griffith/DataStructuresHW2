@@ -51,17 +51,17 @@ Record* Record::find() {
     if (m_parent == nullptr) {
         return this;
     }
-    return find_update_parent(this);
+    int sum = 0;
+    return find_update_parent(this, &sum);
 }
 
-Record* Record::find_update_parent(Record* tmpRecord) {
+Record* Record::find_update_parent(Record* tmpRecord, int* prevH) {
     if (tmpRecord->m_parent == nullptr) {
         return tmpRecord;
     }
-    if(tmpRecord->m_parent->m_parent) {
-        tmpRecord->m_height += tmpRecord->m_parent->m_height;
-    }
-    tmpRecord->m_parent = find_update_parent(tmpRecord->m_parent);
+    tmpRecord->m_parent = find_update_parent(tmpRecord->m_parent, prevH);
+    tmpRecord->m_height += *prevH;
+    *prevH = tmpRecord->m_height;
     return tmpRecord->m_parent;
 }
 

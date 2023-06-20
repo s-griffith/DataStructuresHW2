@@ -40,7 +40,7 @@ public:
 
     int find_group();
 
-    Record* find_update_parent(Record* tmpRecord);
+    Record* find_update_parent(Record* tmpRecord, int* prevH);
 
     Record *record_union(Record *other);
 

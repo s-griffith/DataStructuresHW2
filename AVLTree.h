@@ -6,7 +6,6 @@
 #include "GenericNode.h"
 #include <new>
 #include "RankNode.h"
-#include <iostream> //REMOVE***********************************************************************************************
 
 /*
 * Class Tree
@@ -117,14 +116,6 @@ public:
     void add_prize(double prize, int min, int max);
 
     double calculate_prize(N* node) const;
-
-    /*
-     * Helper function for testing:
-     * Prints the tree, node by node
-     * @param - none
-     * @return - void
-     */
-    void print_tree();
 
 protected:
 
@@ -492,10 +483,6 @@ N* Tree<N, T>::make_node_leaf(N* node)
     return parentToReturn;
 }
 
-template<class N, class T>
-void Tree<N, T>::print_tree() {
-    this->m_node->inorderWalkNode(1);
-}
 //----------------------------------------------------------------------------------------------
 
 #endif //AVLTREE_H

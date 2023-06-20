@@ -3,7 +3,6 @@
 
 #include "Node.h"
 #include "Exception.h"
-#include <iostream> //******************************************************************************************************
 
 template <class T>
 class RankNode : Node<T> {
@@ -30,16 +29,6 @@ public:
     * @return - height
     */
     int get_height() const;
-
-    /*
-     * Helper functions for testing:
-     * Prints a tree, node by node
-     * @param - none
-     * @return - void
-     */
-    void inorderWalkNode(bool flag);
-    void printNode();
-    void printData();
 
 private:
 
@@ -345,58 +334,6 @@ void RankNode<T>::inorder_remove() {
         this->m_data->update_views();
         this->m_data->remove_group();
         m_right->inorder_remove();
-    }
-}
-
-template <class T>
-void RankNode<T>::printNode() {
-    int parent, left, right;
-    if (m_parent == nullptr) {
-        parent = -1;
-    }
-    else {
-        parent = m_parent->m_id;
-    }
-    if (m_left == nullptr) {
-        left = -1;
-    }
-    else {
-        left = m_left->m_id;
-    }
-    if (m_right == nullptr) {
-        right = -1;
-    }
-    else {
-        right = m_right->m_id;
-    }
-    int debt = 0;
-    int prize = 0;
-    if (this->m_id != -1) {
-        debt = this->m_data->get_debt();
-        prize = m_prize;
-    }
-    std::cout << "ID = " << Node<T>::m_id << ", Parent = " << parent << ", Left = " 
-            << left << ", Right = " << right << ", Debt = " << debt << ", Prize = " << prize << std::endl;
-}
-
-
-template <class T>
-void RankNode<T>::printData() {
-    std::cout << "ID = " << Node<T>::m_id << std::endl;
-}
-
-
-template <class T>
-void RankNode<T>::inorderWalkNode(bool flag) {
-    if (this != nullptr) {
-        m_left->inorderWalkNode(flag);
-        if (flag) {
-            this->printNode();
-        }
-        else {
-            this->printData();
-        }
-        m_right->inorderWalkNode(flag);
     }
 }
 
