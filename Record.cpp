@@ -45,7 +45,6 @@ Record* Record::get_parent() const {
 
 void Record::buy_record() {
     m_bought++;
-    m_copies--;
 }
 
 Record* Record::find() {
