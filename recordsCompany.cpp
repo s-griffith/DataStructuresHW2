@@ -29,11 +29,11 @@ RecordsCompany::~RecordsCompany()
     //delete previous data
     //delete previous data
     for (int i = 0; i < m_numRecords; i++) {
-        if(m_records[i]->m_stack)
-        delete m_records[i]->find();
+        if(m_records[i]->get_stack())
+            delete m_records[i]->get_stack();
         delete m_records[i];
     }
-    //delete[] m_records;
+    delete[] m_records;
 }
 
 
