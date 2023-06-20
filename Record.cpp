@@ -73,6 +73,7 @@ Record * Record::record_union(Record *other) {
     Stack* this_stack = this->find();
     if (num_of_recs_other<=num_of_recs_this) {
         other_root->m_parent = this_root;
+        other_root->m_stack = nullptr;
         other_root->m_height += (this_stack->get_height() - this_root->m_height);
         this_root->m_stack->update_numRecords(num_of_recs_other);
         delete other_stack;
