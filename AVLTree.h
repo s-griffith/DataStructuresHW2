@@ -4,6 +4,7 @@
 #include "Exception.h"
 #include "Node.h"
 #include "GenericNode.h"
+#include <new>
 
 /*
 * Class Tree
