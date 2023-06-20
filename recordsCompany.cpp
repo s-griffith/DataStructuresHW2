@@ -250,7 +250,7 @@ StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight)
         return DOESNT_EXISTS;
     }
     *hight = m_records[r_id]->get_height();
-    *column = m_records[r_id]->find()->get_column();
+    *column = m_records[r_id]->find()->get_stack()->get_column();
     return StatusType::SUCCESS;
 }
 
