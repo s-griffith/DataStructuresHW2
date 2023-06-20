@@ -115,3 +115,7 @@ int Record::find_group() {
 void Record::setStack(Stack *stack) {
     Record::m_stack = stack;
 }
+
+Stack *Record::get_stack()  {
+    return m_stack;
+}

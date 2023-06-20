@@ -22,6 +22,8 @@ public:
     int get_height() const;
     Record* get_parent() const;
 
+    Stack *get_stack() ;
+
     void setStack(Stack *stack);
 
     void set_params(int ID, int copies, int column);

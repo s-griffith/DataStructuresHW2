@@ -22,15 +22,18 @@ RecordsCompany::~RecordsCompany()
         }
         delete m_customersHashTable[i];
     }
-    if (m_members.m_node->get_height() >= 0) {
+    /*if (m_members.m_node->get_height() >= 0) {
         m_members.erase_data(m_members.m_node);
-    }
+    }*/
     delete[] m_customersHashTable;
     //delete previous data
+    //delete previous data
     for (int i = 0; i < m_numRecords; i++) {
+        if(m_records[i]->m_stack)
+        delete m_records[i]->find();
         delete m_records[i];
     }
-    delete[] m_records;
+    //delete[] m_records;
 }
 
 
@@ -43,6 +46,7 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
 
     //delete previous data
     for (int i = 0; i < m_numRecords; i++) {
+        delete m_records[i]->find();
         delete m_records[i];
     }
     delete[] m_records;
