@@ -22,6 +22,8 @@ public:
 
     void define_prize();
 
+    void inorderWalkReset();
+
     /*
     * Returns the height of a node
     * @param - none
@@ -191,6 +193,16 @@ void RankNode<T>::define_prize() {
     }
 } 
 
+
+template <class T>
+void RankNode<T>::inorderWalkReset() {
+    if (this != nullptr) {
+        m_left->inorderWalkReset();
+        m_prize = 0;
+        m_right->inorderWalkReset();
+    }
+}
+
 //--------------------------------Public Helper Function for streaming--------------------------------------------
 
 template<class T>
@@ -335,7 +347,6 @@ void RankNode<T>::inorder_remove() {
         m_right->inorder_remove();
     }
 }
-
 
 template <class T>
 void RankNode<T>::printNode() {

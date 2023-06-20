@@ -73,6 +73,7 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
         }
     }
     m_numRecords = number_of_records;
+    m_members.m_node->inorderWalkReset();
     return StatusType::SUCCESS;
 }
 
@@ -146,11 +147,12 @@ StatusType RecordsCompany::makeMember(int c_id)
     if (tmpCustomer->makeMember()) {
         try {
             m_members.insert(tmpCustomer, c_id);
-            (m_members.search_recursively(c_id, m_members.m_node)).insert();
+            //(m_members.search_recursively(c_id, m_members.m_node)).insert();
         }
         catch (const std::bad_alloc& e) {
             return StatusType::ALLOCATION_ERROR;
         }
+        //m_members.print_tree();
         return StatusType::SUCCESS;
     }
     return StatusType::ALREADY_EXISTS;
