@@ -3,6 +3,7 @@
 
 #include "Node.h"
 #include "Exception.h"
+#include <iostream> //******************************************************************************************************
 
 template <class T>
 class RankNode : Node<T> {
@@ -19,12 +20,24 @@ public:
 
     double calculate_prize();
 
+    void insert();
+
     /*
     * Returns the height of a node
     * @param - none
     * @return - height
     */
     int get_height() const;
+
+    /*
+     * Helper functions for testing:
+     * Prints a tree, node by node
+     * @param - none
+     * @return - void
+     */
+    void inorderWalkNode(bool flag);
+    void printNode();
+    void printData();
 
 private:
 
@@ -119,6 +132,9 @@ void RankNode<T>::add_prize(double prize, int min) {
     while (parent->m_id > min && (parent->m_parent != nullptr)) {
         parent = parent->m_parent;
     }
+    if (parent->m_id > min) {
+        return;
+    }
     //Change the prize amounts as necessary by searching for the known ID in the tree:
     x = this;
     while (x != nullptr) {
@@ -126,11 +142,15 @@ void RankNode<T>::add_prize(double prize, int min) {
             if (x->m_parent != nullptr && x->m_parent->m_left == x) {
                 x->m_prize += prize;
             }
+            else if(x->m_parent == nullptr) {
+                x->m_prize += prize;
+            }
             if (x->m_right != nullptr) {
                 x->m_right->m_prize -= prize;
             }
+            break;
         }
-        if (parent->m_id > x->m_id) {
+        else if (parent->m_id > x->m_id) {
             //If turning right from the root or came after left turn, add prize to the parent turning from:
             if((x->m_parent == nullptr) || (x->m_parent->m_left == x)) {
                 x->m_prize += prize;
@@ -157,6 +177,19 @@ double RankNode<T>::calculate_prize() {
     }
     return prize;
 }
+
+template <class T>
+void RankNode<T>::insert() {
+    if (this != nullptr) {
+        int prize = this->calculate_prize();
+        if (prize == 0) {
+            this->m_prize = 0;
+        }
+        else {
+            this->m_prize = (-1)*prize;
+        }
+    }
+} 
 
 //--------------------------------Public Helper Function for streaming--------------------------------------------
 
@@ -196,6 +229,8 @@ typename RankNode<T>::RankNode* RankNode<T>::ll_rotation(RankNode<T>* node)
     m_left = m_left->m_right;
     //Changing A->Ar to A->B
     m_parent->m_right = this;
+    m_parent->m_prize += m_prize;
+    m_prize = 0;
     return tmpToReturn;
 }
 
@@ -223,6 +258,8 @@ typename RankNode<T>::RankNode* RankNode<T>::rr_rotation(RankNode<T>* node)
     }
     m_right = m_right->m_left;
     m_parent->m_left = this;
+    m_parent->m_prize += m_prize;
+    m_prize = 0;
     return tmpToReturn;
 }
 
@@ -292,6 +329,53 @@ void RankNode<T>::inorder_remove() {
         this->m_data->update_views();
         this->m_data->remove_group();
         m_right->inorder_remove();
+    }
+}
+
+
+template <class T>
+void RankNode<T>::printNode() {
+    int parent, left, right;
+    if (m_parent == nullptr) {
+        parent = -1;
+    }
+    else {
+        parent = m_parent->m_id;
+    }
+    if (m_left == nullptr) {
+        left = -1;
+    }
+    else {
+        left = m_left->m_id;
+    }
+    if (m_right == nullptr) {
+        right = -1;
+    }
+    else {
+        right = m_right->m_id;
+    }
+    std::cout << "ID = " << Node<T>::m_id << ", Parent = " << parent << ", Left = " 
+            << left << ", Right = " << right << ", Debt = " << this->m_data->get_debt() << ", Prize = " << m_prize << std::endl;
+}
+
+
+template <class T>
+void RankNode<T>::printData() {
+    std::cout << "ID = " << Node<T>::m_id << std::endl;
+}
+
+
+template <class T>
+void RankNode<T>::inorderWalkNode(bool flag) {
+    if (this != nullptr) {
+        m_left->inorderWalkNode(flag);
+        if (flag) {
+            this->printNode();
+        }
+        else {
+            this->printData();
+        }
+        m_right->inorderWalkNode(flag);
     }
 }
 

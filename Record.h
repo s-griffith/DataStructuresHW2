@@ -30,6 +30,7 @@ public:
 
     void buy_record();
 
+
     /*
      * Compress the path between the record and the root
      * @param - None
