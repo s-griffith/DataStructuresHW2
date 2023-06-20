@@ -26,10 +26,11 @@ RecordsCompany::~RecordsCompany()
         m_members.erase_data(m_members.m_node);
     }
     delete[] m_customersHashTable;
-    if (m_records != nullptr) {
-        //Might need to delete each record individually as well!
-        delete[] m_records;
+    //delete previous data
+    for (int i = 0; i < m_numRecords; i++) {
+        delete m_records[i];
     }
+    delete[] m_records;
 }
 
 
