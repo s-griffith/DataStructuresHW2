@@ -76,7 +76,7 @@ Record * Record::record_union(Record *other) {
         other_root->m_height += (this_stack->get_height() - this_root->m_height);
         this_stack->update_height(other_stack->get_height());
         this_root->m_stack->update_numRecords(num_of_recs_other);
-        this_stack->update_height(other_stack->get_height());
+        //this_stack->update_height(other_stack->get_height());
         delete other_stack;
         return this;
     }
@@ -88,7 +88,7 @@ Record * Record::record_union(Record *other) {
         other_root->m_stack->update_numRecords(num_of_recs_this);
         other_root->m_stack->set_column(this_stack->get_column());
         this_root->m_parent = other_root;
-        other_stack->update_height(this_stack->get_height());
+        //other_stack->update_height(this_stack->get_height());
         delete this_stack;
         return other;
     }
