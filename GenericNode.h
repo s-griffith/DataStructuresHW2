@@ -4,7 +4,7 @@
 #include "Node.h"
 
 /*
-* Class Tree : Generic Node
+* Class Generic Node
 * This class is used to create the separate nodes in a basic AVL tree.
 */
 template <class T>
