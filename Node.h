@@ -18,7 +18,7 @@ public:
 
     /*
     * Copy Constructor and Assignment Operator of Node class
-    * streaming does not allow two of the same user, movie, or group (repeating ID's).
+    * RecordsCompany does not allow two nodes of the same customer or record (repeating ID's).
     * Therefore the system does not allow a copy constructor or assignment operator.
     */    
     Node(const Node&) = delete;
@@ -38,6 +38,11 @@ public:
     */
     int getID() const;
 
+    /*
+    * Returns the data of a node
+    * @param - none
+    * @return - T&, a reference to the node's data
+    */
     T& get_data();
 
 protected:
@@ -55,7 +60,7 @@ protected:
     int m_id;
 
     /*
-     * The following classes are friend classes in order to allow full access to private fields and functions of
+     * The following class is a friend class in order to allow full access to private fields and functions of
      * Node.
      * This allows Node to be a mostly protected class, while allowing the system to run smoothly.
     */    

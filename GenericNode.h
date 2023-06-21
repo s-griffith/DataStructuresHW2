@@ -66,28 +66,28 @@ private:
     /*
      * Left-Right Rotation
      * @param - Node with balance factor of +2
-     * @return - pointer to ComplexNode
+     * @return - pointer to GenericNode
      */
     GenericNode* ll_rotation(GenericNode* node);
 
     /*
      * Right-Right Rotation
      * @param - Node with balance factor of -2
-     * @return - pointer to ComplexNode
+     * @return - pointer to GenericNode
      */
     GenericNode* rr_rotation(GenericNode* node);
 
     /*
      * Right-Left Rotation
      * @param - Node with balance factor of -2
-     * @return - pointer to ComplexNode
+     * @return - pointer to GenericNode
     */
     GenericNode* rl_rotation(GenericNode* node);
 
     /*
      * Left-Left Rotation
      * @param - Node with balance factor of +2
-     * @return - pointer to ComplexNode
+     * @return - pointer to GenericNode
     */
     GenericNode* lr_rotation(GenericNode* node);
 
