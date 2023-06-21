@@ -2,25 +2,68 @@
 #define RANKNODE_H
 
 #include "Node.h"
-#include "Exception.h"
 
+/*
+* Class Rank Node
+* This class is used to create the separate nodes in an AVL rank tree, where the extra data is "prize."
+*/
 template <class T>
 class RankNode : Node<T> {
 public:
 
+    /*
+    * Constructor of RankNode class
+    * @param - none
+    * @return - A new instance of RankNode
+    */
     RankNode();
 
+    /*
+    * Copy Constructor and Assignment Operator of RankNode class
+    * RecordsCompany does not allow two nodes of the same customer or record (repeating ID's).
+    * Therefore the system does not allow a copy constructor or assignment operator.
+    */
     RankNode(const RankNode& other) = delete;
     RankNode& operator=(const RankNode& other) = delete;
 
+    /*
+    * Destructor of RankNode class
+    * @param - none
+    * @return - void
+    */
     ~RankNode() = default;
 
+    /*
+    * Helper function for add_prize in RecordsCompany:
+    * Adds a given prize to all customer whose IDs are less than the minimum given
+    * @param - the prize to add, the minimum ID
+    * @return - void
+    */
     void add_prize(double prize, int min);
 
+    /*
+    * Helper function for add_prize in RecordsCompany:
+    * Calculates the customer's prize up the search path
+    * @param - none
+    * @return - double, the customer's total prize
+    */
     double calculate_prize();
 
+    /*
+    * Helper function for make_member in RecordsCompany:
+    * Sets the new member's prize equal to the negative value of its current prize after insertion.
+    * This ensure that the new member starts with a total prize of zero.
+    * @param - none
+    * @return - void
+    */
     void define_prize();
 
+    /*
+    * Helper function for new_month in RecordsCompany:
+    * Resets each member's debt and prize to zero
+    * @param - none
+    * @return - void
+    */
     void inorderWalkReset();
 
     /*
@@ -35,28 +78,28 @@ private:
     /*
      * Left-Right Rotation
      * @param - Node with balance factor of +2
-     * @return - pointer to ComplexNode
+     * @return - pointer to RankNode
      */
     RankNode* ll_rotation(RankNode* node);
 
     /*
      * Right-Right Rotation
      * @param - Node with balance factor of -2
-     * @return - pointer to ComplexNode
+     * @return - pointer to RankNode
      */
     RankNode* rr_rotation(RankNode* node);
 
     /*
      * Right-Left Rotation
      * @param - Node with balance factor of -2
-     * @return - pointer to ComplexNode
+     * @return - pointer to RankNode
     */
     RankNode* rl_rotation(RankNode* node);
 
     /*
      * Left-Left Rotation
      * @param - Node with balance factor of +2
-     * @return - pointer to ComplexNode
+     * @return - pointer to RankNode
     */
     RankNode* lr_rotation(RankNode* node);
 
@@ -75,14 +118,6 @@ private:
     void update_height();
 
     /*
-     * Helper function for remove_group in streaming:
-     * Removes each user from the group
-     * @param - none
-     * @return - void
-    */
-    void inorder_remove();
-
-    /*
      * The following class is a friend class in order to allow full access to private fields and functions of
      * RankNode, allowing RankNode to be a mostly private class, while allowing the system to run smoothly.
     */
@@ -90,7 +125,9 @@ private:
     friend class Tree;
 
     /*
-     * The internal fields of RankNode: pointers to the parent node and two child nodes
+     * The internal fields of RankNode: 
+     *    Pointers to the parent node and two child nodes
+     *    The node's prize
      */
     RankNode* m_parent;
     RankNode* m_left;
@@ -99,8 +136,13 @@ private:
 
 };
 
+//--------------------------------------------Constructor---------------------------------------------------
+
 template<class T>
 RankNode<T>::RankNode() : m_parent(nullptr), m_left(nullptr), m_right(nullptr), m_prize(0) {}
+
+
+//------------------------------------Public Helper Functions for RecordsCompany---------------------------------------
 
 template <class T>
 void RankNode<T>::add_prize(double prize, int min) {
@@ -158,10 +200,12 @@ void RankNode<T>::add_prize(double prize, int min) {
     }
 }
 
+
 template <class T>
 double RankNode<T>::calculate_prize() {
     int prize = 0;
     RankNode<T>* temp = this;
+    //Go up until the root, adding the prize along the search path:
     while (temp != nullptr) {
         prize += temp->m_prize;
         temp = temp->m_parent;
@@ -169,10 +213,13 @@ double RankNode<T>::calculate_prize() {
     return prize;
 }
 
+
 template <class T>
 void RankNode<T>::define_prize() {
     if (this != nullptr) {
+        //Find the node's current prize
         int prize = this->calculate_prize();
+        //Set the node's prize to the negative of the current prize, effectively making its prize 0:
         if (prize == 0) {
             this->m_prize = 0;
         }
@@ -188,11 +235,13 @@ void RankNode<T>::inorderWalkReset() {
     if (this != nullptr) {
         m_left->inorderWalkReset();
         m_prize = 0;
+        if (this->m_data != nullptr) {
+            this->m_data->update_debt();
+        }
         m_right->inorderWalkReset();
     }
 }
 
-//--------------------------------Public Helper Function for streaming--------------------------------------------
 
 template<class T>
 int RankNode<T>::get_height() const {
@@ -231,6 +280,7 @@ typename RankNode<T>::RankNode* RankNode<T>::ll_rotation(RankNode<T>* node)
     m_left = m_left->m_right;
     //Changing A->Ar to A->B
     m_parent->m_right = this;
+    //Update the prizes after the rotation:
     int tmp = m_prize;
     m_prize = m_parent->m_prize*(-1);
     m_parent->m_prize += tmp;
@@ -262,6 +312,7 @@ typename RankNode<T>::RankNode* RankNode<T>::rr_rotation(RankNode<T>* node)
     }
     m_right = m_right->m_left;
     m_parent->m_left = this;
+    //Update the prizes after the rotation:
     int tmp = m_prize;
     m_prize = m_parent->m_prize*(-1);
     m_parent->m_prize += tmp;
@@ -325,17 +376,6 @@ void RankNode<T>::update_height()
     }
 }
 
-//------------------------------------Helper Function for streaming-------------------------------------------------
-
-template <class T>
-void RankNode<T>::inorder_remove() {
-    if (this != nullptr && this->m_data != nullptr) {
-        m_left->inorder_remove();
-        this->m_data->update_views();
-        this->m_data->remove_group();
-        m_right->inorder_remove();
-    }
-}
 
 //-----------------------------------------------------------------------------------------------------------
 
