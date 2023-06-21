@@ -20,12 +20,8 @@ bool Customer::isVIP() const {
 }
 
 int Customer::get_debt() const {
-    if (m_VIP) {
-        return m_debt; //Debating if should search in the tree here or in system
-    }
-    else {
-        throw InvalidID(); //Might not need this later on, might need to make this a different exception
-    }
+    //Whether the customer is a member is checked beforehand, so we can return:
+    return m_debt;
 }
 
 bool Customer::makeMember() {
@@ -37,9 +33,9 @@ bool Customer::makeMember() {
 }
 
 void Customer::buy(int num) {
-    m_debt += (100 + num);
+    m_debt += (COST + num);
 }
 
 void Customer::update_debt() {
-    m_debt=0;
+    m_debt = 0;
 }
