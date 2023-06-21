@@ -1,31 +1,21 @@
 #include "Stack.h"
 
 Stack::Stack(Record* record) :
-    m_numRecords(1),
-    m_records(record)
-{
-    m_height= record->get_copies();
-    m_column = record->get_recordID();
-}
-
-Stack::~Stack() {
-    m_records = nullptr;
-}
+    m_height(record->get_copies()),
+    m_column(record->get_recordID()),
+    m_numRecords(INITIAL_SIZE)
+{}
 
 int Stack::get_numRecords() const {
     return m_numRecords;
 }
 
-Record* Stack::get_records() const {
-    return m_records;
+int Stack::get_height() const {
+    return m_height;
 }
 
-void Stack::update_records(Record* record) {
-    m_records = record;
-}
-
-void Stack::update_numRecords(int num) {
-    m_numRecords += num;
+int Stack::get_column() const {
+    return m_column;
 }
 
 void Stack::set_column(int column) {
@@ -36,10 +26,6 @@ void Stack::update_height(int height) {
     m_height += height;
 }
 
-int Stack::get_height() const {
-    return m_height;
-}
-
-int Stack::get_column() const {
-    return m_column;
+void Stack::update_numRecords(int num) {
+    m_numRecords += num;
 }

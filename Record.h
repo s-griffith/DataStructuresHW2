@@ -22,7 +22,7 @@ public:
     * Default Constructor, Copy Constructor and Assignment Operator of Record class
     * RecordsCompany does not allow two objects of the same record (repeating ID's).
     * Therefore the system does not allow a copy constructor or assignment operator.
-    * RecordsCompany does not allow a customer without a given ID.
+    * RecordsCompany does not allow a record without a given ID.
     * Therefore the system does not allow a default constructor.
     */
     Record() = delete;
