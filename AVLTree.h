@@ -98,14 +98,6 @@ public:
     T& search_and_return_data(const int id) const;
 
     /*
-    * Helper function for remove_group in streaming:
-    * Go over the users in the group and update the relevant fields
-    * @param - none
-    * @return - void
-    */
-    void remove_users();
-
-    /*
     * Helper function for enlarge_hash_table in Records Company:
     * Recursively insert all the customers in tree into the given array
     * @param - array of Customers
@@ -113,8 +105,20 @@ public:
     */
     void get_all_data(T* const array) const;
 
+    /*
+    * Helper function for add_prize in Records Company:
+    * Adds a given prize to all members withing a certain range
+    * @param - prize, minimum ID, maximum ID
+    * @return - none
+    */
     void add_prize(double prize, int min, int max);
 
+    /*
+    * Helper function for get_expenses in Records Company:
+    * Calculates the member's prize along the search path
+    * @param - the member's prize
+    * @return - double, the member's total prize
+    */
     double calculate_prize(N* node) const;
 
 protected:
@@ -127,13 +131,6 @@ protected:
     N* make_node_leaf(N* node);
 
 };
-
-
-
-
-
-
-
 
 
 //-------------------------------Constructor, Destructors, and Helpers--------------------------------------
@@ -234,6 +231,7 @@ void Tree<N, T>::insert(T data, const int id) {
         else {
             y->m_right = node;
         }
+        //Ensure that the node's initial prize is 0:
         node->define_prize();
         rebalance_tree((node->m_parent));
     }
@@ -353,11 +351,11 @@ T& Tree<N, T>::search_and_return_data(const int id) const
 
 //-----------------------------------------Helper Functions for Records Company-----------------------------------------
 
-template <class N, class T>
+/* template <class N, class T>
 void Tree<N, T>::remove_users()
 {
     m_node->inorder_remove();
-}
+} */
 
 template <class N, class T>
 void Tree<N, T>::get_all_data(T* const array) const
@@ -369,6 +367,7 @@ void Tree<N, T>::get_all_data(T* const array) const
 
 template<class N, class T>
 void Tree<N, T>::add_prize(double prize, int min, int max) {
+    //Good for the dry, but then delete!**************************************************************************************
 //Use this as a helper function - call first on (max, prize) then on (min-1, -prize)
 //Search for the given node
 //On the first of a series of right turns, add i to the parent turned right from
@@ -376,8 +375,7 @@ void Tree<N, T>::add_prize(double prize, int min, int max) {
 //When reaching the given node, if without previous right turns, add i to the given node
 //-i to the given node's right child if exists
 //On a left turn with no right turn directly before it: do nothing
-
-    //Call the helper function with min-1 and -prize:
+    //Call a helper function that adds a prize to all members with an ID that is lower than the given:
     this->m_node->add_prize(prize*(-1), min-1);
     this->m_node->add_prize(prize, max-1);
 }
@@ -386,7 +384,9 @@ template<class N, class T>
 double Tree<N, T>::calculate_prize(N* node) const {
      return node->calculate_prize();
 }
-//-----------------------------------------Internal Helper Functions-----------------------------------------
+
+
+//-----------------------------------------Internal Helper Function-----------------------------------------
 
 template <class N, class T>
 N* Tree<N, T>::make_node_leaf(N* node)
