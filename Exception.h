@@ -39,21 +39,5 @@ class InvalidID : public std::exception {
     
 };
 
-/*
-* Class InvalidRange : std::exception
-* This class represents an exception thrown when a range of ID numbers given is invalid.
-*/
-class InvalidRange : public std::exception {
-
-    /*
-    * Provide information regarding the error - the ID range given does not exist in the tree.
-    * @param - none
-    * @return - const char* - description of exception
-    */
-    const char* what() const noexcept override {
-        return "Invalid Range Error: ID range does not exist in the tree.";
-    }
-    
-};
 
 #endif //EXCEPTION_H

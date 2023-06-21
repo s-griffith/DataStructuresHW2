@@ -20,7 +20,7 @@ public:
 
     /*
     * Copy Constructor and Assignment Operator of GenericNode class
-    * streaming does not allow two of the same user, movie, or group (repeating ID's).
+    * RecordsCompany does not allow two nodes of the same customer or record (repeating ID's).
     * Therefore the system does not allow a copy constructor or assignment operator.
     */
     GenericNode(const GenericNode&) = delete;
@@ -40,11 +40,25 @@ public:
     */
     int get_height() const;
 
-
+    /*
+    * Returns the left child of a node
+    * @param - none
+    * @return - GenericNode*, the node's left child
+    */
     GenericNode *get_left();
 
+    /*
+    * Returns the right child of a node
+    * @param - none
+    * @return - GenericNode*, the node's right child
+    */
     GenericNode *get_right();
     
+    /*
+    * An empty function that allows AVLTree to work with RankNode as well as GenericNode
+    * @param - none
+    * @return - void
+    */
     void define_prize();
 
 private:
@@ -99,15 +113,6 @@ private:
     */
     int get_data_inorder(T* array, int index) const;
 
-
-    /*
-     * Helper function for remove_group in streaming:
-     * Removes each user from the group
-     * @param - none
-     * @return - void
-    */
-    void inorder_remove();
-
     /*
      * The following class is a friend class in order to allow full access to private fields and functions of
      * GenericNode, allowing GenericNode to be a mostly private class, while allowing the system to run smoothly.
@@ -134,12 +139,25 @@ GenericNode<T>::GenericNode() :
         m_right(nullptr)
 {}
 
-//--------------------------------Public Helper Function for streaming--------------------------------------------
+//--------------------------------Public Helper Functions for RecordsCompany--------------------------------------------
 
 template<class T>
 int GenericNode<T>::get_height() const {
     return this->m_height;
 }
+
+template<class T>
+GenericNode<T> *GenericNode<T>::get_left(){
+    return m_left;
+}
+
+template<class T>
+GenericNode<T> *GenericNode<T>::get_right(){
+    return m_right;
+}
+
+template <class T>
+void GenericNode<T>::define_prize() {}
 
 //--------------------------------------------Rotations---------------------------------------------------
 
@@ -259,7 +277,7 @@ void GenericNode<T>::update_height()
     }
 }
 
-//------------------------------------Helper Function for streaming-------------------------------------------------
+//------------------------------------Helper Function for RecordsCompany-----------------------------------------------
 
 template <class T>
 int GenericNode<T>::get_data_inorder(T* array, int index) const
@@ -272,28 +290,6 @@ int GenericNode<T>::get_data_inorder(T* array, int index) const
     return index;
 }
 
-template <class T>
-void GenericNode<T>::inorder_remove() {
-    if (this != nullptr && this->m_data != nullptr) {
-        m_left->inorder_remove();
-        this->m_data->update_views();
-        this->m_data->remove_group();
-        m_right->inorder_remove();
-    }
-}
-
-template<class T>
-GenericNode<T> *GenericNode<T>::get_left(){
-    return m_left;
-}
-
-template<class T>
-GenericNode<T> *GenericNode<T>::get_right(){
-    return m_right;
-}
-
-template <class T>
-void GenericNode<T>::define_prize() {}
 //-----------------------------------------------------------------------------------------------------------
 
 #endif //GENERICNODE_H

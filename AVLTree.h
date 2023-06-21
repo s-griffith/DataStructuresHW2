@@ -27,7 +27,7 @@ public:
 
     /*
     * Copy Constructor and Assignment Operator of Tree class
-    * streaming does not allow two of the same user, movie, or group (repeating ID's).
+    * RecordsCompany does not allow two nodes of the same customer or record (repeating ID's).
     * Therefore the system does not allow a copy constructor or assignment operator.
     */
     Tree(const Tree& other) = delete;
@@ -350,12 +350,6 @@ T& Tree<N, T>::search_and_return_data(const int id) const
 
 
 //-----------------------------------------Helper Functions for Records Company-----------------------------------------
-
-/* template <class N, class T>
-void Tree<N, T>::remove_users()
-{
-    m_node->inorder_remove();
-} */
 
 template <class N, class T>
 void Tree<N, T>::get_all_data(T* const array) const
