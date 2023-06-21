@@ -43,9 +43,7 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
     if(number_of_records<0){
         return StatusType::INVALID_INPUT;
     }
-    update_customers_debt(m_customersHashTable);
-
-    //delete previous data
+    //Delete previous data:
     for (int i = 0; i < m_numRecords; i++) {
         if (m_records[i]->get_stack() != nullptr) {
             delete m_records[i]->get_stack();
@@ -147,7 +145,6 @@ StatusType RecordsCompany::makeMember(int c_id)
     if (tmpCustomer->makeMember()) {
         try {
             m_members.insert(tmpCustomer, c_id);
-            //(m_members.search_recursively(c_id, m_members.m_node)).insert();
         }
         catch (const std::bad_alloc& e) {
             return StatusType::ALLOCATION_ERROR;
@@ -317,26 +314,3 @@ int RecordsCompany::hash_function(int id)
     return id % m_currentHashSize;
 }
 
-// Assume we have a HashTable class with a member variable "buckets" of type AVLTreeNode**
-
-void TraverseAVLTree(GenericNode<Customer*>* node) {
-    if (node == nullptr) {
-        return;
-    }
-
-    TraverseAVLTree(node->get_left());
-
-    node->get_data()->update_debt();
-
-    TraverseAVLTree(node->get_right());
-}
-
-void RecordsCompany::update_customers_debt(Tree<GenericNode<Customer*>, Customer*>** tmpTable) {
-
-    for (int i = 0; i < m_currentHashSize; i++) {
-        GenericNode<Customer*>* bucket = tmpTable[i]->m_node;
-        if(bucket->get_data()) {
-            TraverseAVLTree(bucket);
-        }
-    }
-}

@@ -39,20 +39,6 @@ public:
     * @return - height
     */
     int get_height() const;
-
-    /*
-    * Returns the left child of a node
-    * @param - none
-    * @return - GenericNode*, the node's left child
-    */
-    GenericNode *get_left();
-
-    /*
-    * Returns the right child of a node
-    * @param - none
-    * @return - GenericNode*, the node's right child
-    */
-    GenericNode *get_right();
     
     /*
     * An empty function that allows AVLTree to work with RankNode as well as GenericNode
@@ -144,16 +130,6 @@ GenericNode<T>::GenericNode() :
 template<class T>
 int GenericNode<T>::get_height() const {
     return this->m_height;
-}
-
-template<class T>
-GenericNode<T> *GenericNode<T>::get_left(){
-    return m_left;
-}
-
-template<class T>
-GenericNode<T> *GenericNode<T>::get_right(){
-    return m_right;
 }
 
 template <class T>

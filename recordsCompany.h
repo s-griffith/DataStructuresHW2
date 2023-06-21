@@ -25,8 +25,6 @@ class RecordsCompany {
     void destroy_old_hash_table(Tree<GenericNode<Customer*>, Customer*>** tmpTable);
     void insert_customer_hash_table(Customer* tmpCustomer);
     int hash_function(int id);
-    void update_customers_debt(Tree<GenericNode<Customer*>, Customer*>** tmpTable);
-
 
   public:
     RecordsCompany();
